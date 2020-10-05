@@ -43,15 +43,12 @@ def food():
         #emailid = "meetarun@gmail.com"
         value = (req.get('queryResult'))
         print("value -- ", value)
-        emailid = ""
+        
         ans=""
         q_name=""
         close=""
         #name = value.get('parameters')
-        if (req.get("queryResult").get("intent").get("displayName") == "welcome - next" or req.get("queryResult").get("intent").get("displayName") == "Get_Email"):
-            emailid = req.get("queryResult").get("parameters").get("email")
-            app.email = 0
-            print(emailid)
+        
         if (req.get("queryResult").get("intent").get("displayName") == "ans_code"):
             ans = req.get("queryResult").get("parameters").get("option")
             print("ans--",ans)
@@ -89,40 +86,9 @@ def food():
             q_name = req.get("queryResult").get("parameters").get("quizname")
             print(q_name)
 
-        if (emailid != "") and (app.email == 0):
+       
 
-            e_mail = ''.join(emailid)
-            email1 = course.email(e_mail)
-            #email1 = "meetarun"
-            print("result--", email1)
-            
-            # print(app.email)
-            if email1 is not None:
-                app.email = 1
-                bot_reply = {
-                    "fulfillmentText": email1,
-                    "followupEventInput": {
-                        "name": "6_Welcome_Subjects",
-                        "parameters": {
-                            "username": email1.capitalize()
-                        }
-                    }
-                }
-
-            else:
-                bot_reply = {
-                    "fulfillmentText": "You have to be a registered user to login",
-                    "followupEventInput": {
-                        "name": "Unauthorised_user",
-
-                    }
-                }
-
-            if (bot_reply):
-                res = jsonify(bot_reply)
-                return res
-
-        elif q_name != "":
+        if q_name != "":
             app.secret_key = q_name
             quiz = ''.join(app.secret_key)
             # First question from DB
